@@ -40,6 +40,9 @@ func (u User) ServiceSmsSendLogin(phoneNumber string) (ResponseServiceSmsSendLog
 	if err != nil {
 		return res, errors.New(fmt.Sprintf("解析失败. %s", err))
 	}
+	if res.Code != 0 {
+		return res, errors.New(gtype.ToString(res.Message))
+	}
 	return res, nil
 }
 func (u User) ServiceSmsChangeMobile(userId int64, phoneNumber string) (ResponseServiceSmsSendLogin, error) {
@@ -61,6 +64,9 @@ func (u User) ServiceSmsChangeMobile(userId int64, phoneNumber string) (Response
 	err = json.Unmarshal([]byte(gr.Body), &res)
 	if err != nil {
 		return res, errors.New(fmt.Sprintf("解析失败. %s", err))
+	}
+	if res.Code != 0 {
+		return res, errors.New(gtype.ToString(res.Message))
 	}
 	return res, nil
 }
@@ -85,6 +91,9 @@ func (u User) UserChangeMobile(userId int64, phoneNumber, code string) (Response
 	if err != nil {
 		return res, errors.New(fmt.Sprintf("解析失败. %s", err))
 	}
+	if res.Code != 0 {
+		return res, errors.New(gtype.ToString(res.Message))
+	}
 	return res, nil
 }
 
@@ -104,6 +113,9 @@ func (u User) ApiUserLogin(body ApiUserLoginReq) (ResponseUserBaseInfo, error) {
 	err = json.Unmarshal([]byte(gr.Body), &res)
 	if err != nil {
 		return res, errors.New(fmt.Sprintf("解析失败. %s", err))
+	}
+	if res.Code != 0 {
+		return res, errors.New(gtype.ToString(res.Message))
 	}
 	return res, nil
 }
@@ -128,6 +140,9 @@ func (u User) GetBaseInfo(userId int64) (ResponseUserBaseInfo, error) {
 	if err != nil {
 		return res, errors.New(fmt.Sprintf("解析失败. %s", err))
 	}
+	if res.Code != 0 {
+		return res, errors.New(gtype.ToString(res.Message))
+	}
 	return res, nil
 }
 
@@ -147,6 +162,9 @@ func (u User) SetBaseInfo(body ApiSetBaseInfo) (ResponseUserBaseInfo, error) {
 	err = json.Unmarshal([]byte(gr.Body), &res)
 	if err != nil {
 		return res, errors.New(fmt.Sprintf("解析失败. %s", err))
+	}
+	if res.Code != 0 {
+		return res, errors.New(gtype.ToString(res.Message))
 	}
 	return res, nil
 }
@@ -168,6 +186,9 @@ func (u User) BindWeChat(body ApiBindWeChatReq) (ResponseUserBaseInfo, error) {
 	if err != nil {
 		return res, errors.New(fmt.Sprintf("解析失败. %s", err))
 	}
+	if res.Code != 0 {
+		return res, errors.New(gtype.ToString(res.Message))
+	}
 	return res, nil
 }
 
@@ -187,6 +208,9 @@ func (u User) SyncWeChatData(body ApiBindWeChatReq) (ResponseUserBaseInfo, error
 	err = json.Unmarshal([]byte(gr.Body), &res)
 	if err != nil {
 		return res, errors.New(fmt.Sprintf("解析失败. %s", err))
+	}
+	if res.Code != 0 {
+		return res, errors.New(gtype.ToString(res.Message))
 	}
 	return res, nil
 }
