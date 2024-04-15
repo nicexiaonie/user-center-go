@@ -22,6 +22,8 @@ type UserInfoRes struct {
 	Password     string `json:"password"` // 密码
 	Email        string `json:"email"`
 	IsRealAuth   int    `json:"is_real_auth"`
+	RealName     string `json:"real_name"`
+	IdCard       string `json:"id_card"`
 	RegisterTime string `json:"register_time"`
 	Gender       int    `json:"gender"`
 	BirthdayDay  string `json:"birthday_day"`
