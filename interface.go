@@ -169,6 +169,35 @@ func (u User) GetBaseInfo(userId int64) (ResponseUserBaseInfo, error) {
 	return res, nil
 }
 
+func (u User) GetBaseInfoSecret(userId int64) (ResponseUserBaseInfo, error) {
+	res := ResponseUserBaseInfo{}
+	request := ghttp.FromValues{}
+	request.Add("request_id", gtype.UniqueId())
+	request.Add("source", u.Source)
+	request.Add("secret", 1)
+	request.Add("body", map[string]interface{}{
+		"user_id": userId,
+	})
+	uri := "/api/user/base_info"
+	u.hook(fmt.Sprintf("Request Uri:%s, body:%s", uri, request.EncodeJson()))
+	gr, err := ghttp.PostJsonRetry(u.Url+uri, request, nil, time.Second*3, 3)
+	u.hook(fmt.Sprintf("Response Uri:%s, body:%s", uri, gr.Body))
+	if err != nil {
+		return res, err
+	}
+	if gr.StatusCode != 200 {
+		return res, errors.New(fmt.Sprintf("请求失败, http.status.code: %d", gr.StatusCode))
+	}
+	err = json.Unmarshal([]byte(gr.Body), &res)
+	if err != nil {
+		return res, errors.New(fmt.Sprintf("解析失败. %s", err))
+	}
+	if res.Code != 0 {
+		return res, errors.New(gtype.ToString(res.Message))
+	}
+	return res, nil
+}
+
 func (u User) SetBaseInfo(body ApiSetBaseInfo) (ResponseUserBaseInfo, error) {
 	res := ResponseUserBaseInfo{}
 	request := ghttp.FromValues{}
