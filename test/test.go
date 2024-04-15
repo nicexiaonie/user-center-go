@@ -10,6 +10,10 @@ func main() {
 
 	user := user_center_go.Init("http://127.0.0.1:8081", "XHY-SERVER")
 
+	user.SetLogHook(func(logContext string) {
+		fmt.Println(logContext)
+	})
+
 	//userInfo, err := user.GetBaseInfo(10151)
 	//fmt.Println(err)
 	//fmt.Println(gtype.ToString(userInfo))
@@ -43,10 +47,20 @@ func main() {
 	//fmt.Println(err)
 	//fmt.Println(gtype.ToString(r4))
 
-	r5, err := user.SetBaseInfo(user_center_go.ApiSetBaseInfo{
-		UserId:   10151,
-		NickName: "aefs",
+	//r5, err := user.SetBaseInfo(user_center_go.ApiSetBaseInfo{
+	//	UserId:   10151,
+	//	NickName: "aefs",
+	//})
+	//fmt.Println(err)
+	//fmt.Println(gtype.ToString(r5))
+
+	r5, err := user.RealName(user_center_go.ApiRealNameReq{
+		UserId:   10258,
+		RealName: "聂元培",
+		IdCard:   "410421199505072511",
 	})
+
 	fmt.Println(err)
 	fmt.Println(gtype.ToString(r5))
+
 }

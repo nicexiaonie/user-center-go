@@ -80,3 +80,10 @@ type ApiBindWeChatReq struct {
 	WechatCode      string `json:"wechat_code"`        // 微信授权code
 	UserWXCacheData any    `json:"user_wx_cache_data"` // 兼容需废弃
 }
+
+// step 实名认证
+type ApiRealNameReq struct {
+	UserId   uint64 `json:"user_id"`   // 唯一不可变 user主表主键ID
+	RealName string `json:"real_name"` // 真实姓名
+	IdCard   string `json:"id_card"`   // 身份证号码
+}
