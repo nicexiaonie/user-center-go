@@ -89,3 +89,8 @@ type ApiRealNameReq struct {
 	RealName string `json:"real_name"` // 真实姓名
 	IdCard   string `json:"id_card"`   // 身份证号码
 }
+
+// step 实名认证
+type ApiGetTreeUserReq struct {
+	UserId uint64 `json:"user_id"` // 唯一不可变 user主表主键ID
+}

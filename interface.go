@@ -301,3 +301,29 @@ func (u User) RealName(body ApiRealNameReq) (bool, error) {
 	}
 	return true, nil
 }
+
+func (u User) GetTreeUser(body ApiGetTreeUserReq) (bool, error) {
+	res := ResponseUserBaseInfo{}
+	request := ghttp.FromValues{}
+	request.Add("request_id", gtype.UniqueId())
+	request.Add("source", u.Source)
+	request.Add("body", body)
+	uri := "/api/org/get_tree_user"
+	u.hook(fmt.Sprintf("Request Uri:%s, body:%s", uri, request.EncodeJson()))
+	gr, err := ghttp.PostJsonRetry(u.Url+uri, request, nil, time.Second*3, 3)
+	u.hook(fmt.Sprintf("Response Uri:%s, body:%s", uri, gr.Body))
+	if err != nil {
+		return false, err
+	}
+	if gr.StatusCode != 200 {
+		return false, errors.New(fmt.Sprintf("请求失败, http.status.code: %d", gr.StatusCode))
+	}
+	err = json.Unmarshal([]byte(gr.Body), &res)
+	if err != nil {
+		return false, errors.New(fmt.Sprintf("解析失败. %s", err))
+	}
+	if res.Code != 0 {
+		return false, errors.New(gtype.ToString(res.Message))
+	}
+	return true, nil
+}
