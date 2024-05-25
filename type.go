@@ -90,7 +90,19 @@ type ApiRealNameReq struct {
 	IdCard   string `json:"id_card"`   // 身份证号码
 }
 
-// step 实名认证
+// step 获取用户组织关系
 type ApiGetTreeUserReq struct {
 	UserId uint64 `json:"user_id"` // 唯一不可变 user主表主键ID
+}
+
+// step 绑定用户组织关系
+type ApiBindTreeUserReq struct {
+	UserId uint64 `json:"user_id" binding:"required"` // 唯一不可变 user主表主键ID
+	OrgID  uint32 `json:"org_id"  binding:"required"`
+}
+
+// step 解绑定用户组织关系
+type ApiUnBindTreeUserReq struct {
+	UserId uint64 `json:"user_id" binding:"required"` // 唯一不可变 user主表主键ID
+	OrgID  uint32 `json:"org_id"  binding:"required"`
 }
