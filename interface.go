@@ -302,8 +302,8 @@ func (u User) RealName(body ApiRealNameReq) (bool, error) {
 	return true, nil
 }
 
-func (u User) GetTreeUser(body ApiGetTreeUserReq) (ResponseUserBaseInfo, error) {
-	res := ResponseUserBaseInfo{}
+func (u User) GetTreeUser(body ApiGetTreeUserReq) (ResponseTreeUserInfo, error) {
+	res := ResponseTreeUserInfo{}
 	request := ghttp.FromValues{}
 	request.Add("request_id", gtype.UniqueId())
 	request.Add("source", u.Source)

@@ -14,6 +14,7 @@ type ResponseUserBaseInfo struct {
 	Message any         `json:"msg"`
 	Body    UserInfoRes `json:"body"`
 }
+
 type UserInfoRes struct {
 	UserId       uint64 `json:"user_id"`
 	AccountName  string `json:"account_name"`
@@ -95,14 +96,42 @@ type ApiGetTreeUserReq struct {
 	UserId uint64 `json:"user_id"` // 唯一不可变 user主表主键ID
 }
 
+// step 获取用户组织关系返回
+type ResponseTreeUserInfo struct {
+	Code    int              `json:"code"`
+	Message any              `json:"msg"`
+	Body    ResponseTreeUser `json:"body"`
+}
+
+// step 获取用户组织关系返回二级
+type ResponseTreeUser struct {
+	OrgID   uint32 `json:"org_id"`
+	OrgName string `json:"org_name"`
+	Perm    string `json:"perm"`
+}
+
 // step 绑定用户组织关系
 type ApiBindTreeUserReq struct {
 	UserId uint64 `json:"user_id" binding:"required"` // 唯一不可变 user主表主键ID
 	OrgID  uint32 `json:"org_id"  binding:"required"`
 }
 
+// step 绑定用户组织关系返回
+type ResponseBindTreeUseInfo struct {
+	Code    int         `json:"code"`
+	Message any         `json:"msg"`
+	Body    interface{} `json:"body"`
+}
+
 // step 解绑定用户组织关系
 type ApiUnBindTreeUserReq struct {
 	UserId uint64 `json:"user_id" binding:"required"` // 唯一不可变 user主表主键ID
 	OrgID  uint32 `json:"org_id"  binding:"required"`
+}
+
+// step 解绑定用户组织关系返回
+type ResponseUnBindTreeUserInfo struct {
+	Code    int         `json:"code"`
+	Message any         `json:"msg"`
+	Body    interface{} `json:"body"`
 }
