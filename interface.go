@@ -302,7 +302,7 @@ func (u User) RealName(body ApiRealNameReq) (bool, error) {
 	return true, nil
 }
 
-func (u User) GetTreeUser(body ApiGetTreeUserReq) (bool, error) {
+func (u User) GetTreeUser(body ApiGetTreeUserReq) (ResponseUserBaseInfo, error) {
 	res := ResponseUserBaseInfo{}
 	request := ghttp.FromValues{}
 	request.Add("request_id", gtype.UniqueId())
@@ -313,22 +313,22 @@ func (u User) GetTreeUser(body ApiGetTreeUserReq) (bool, error) {
 	gr, err := ghttp.PostJsonRetry(u.Url+uri, request, nil, time.Second*3, 3)
 	u.hook(fmt.Sprintf("Response Uri:%s, body:%s", uri, gr.Body))
 	if err != nil {
-		return false, err
+		return res, err
 	}
 	if gr.StatusCode != 200 {
-		return false, errors.New(fmt.Sprintf("请求失败, http.status.code: %d", gr.StatusCode))
+		return res, errors.New(fmt.Sprintf("请求失败, http.status.code: %d", gr.StatusCode))
 	}
 	err = json.Unmarshal([]byte(gr.Body), &res)
 	if err != nil {
-		return false, errors.New(fmt.Sprintf("解析失败. %s", err))
+		return res, errors.New(fmt.Sprintf("解析失败. %s", err))
 	}
 	if res.Code != 0 {
-		return false, errors.New(gtype.ToString(res.Message))
+		return res, errors.New(gtype.ToString(res.Message))
 	}
-	return true, nil
+	return res, nil
 }
 
-func (u User) BindTreeUser(body ApiBindTreeUserReq) (bool, error) {
+func (u User) BindTreeUser(body ApiBindTreeUserReq) (ResponseUserBaseInfo, error) {
 	res := ResponseUserBaseInfo{}
 	request := ghttp.FromValues{}
 	request.Add("request_id", gtype.UniqueId())
@@ -339,22 +339,22 @@ func (u User) BindTreeUser(body ApiBindTreeUserReq) (bool, error) {
 	gr, err := ghttp.PostJsonRetry(u.Url+uri, request, nil, time.Second*3, 3)
 	u.hook(fmt.Sprintf("Response Uri:%s, body:%s", uri, gr.Body))
 	if err != nil {
-		return false, err
+		return res, err
 	}
 	if gr.StatusCode != 200 {
-		return false, errors.New(fmt.Sprintf("请求失败, http.status.code: %d", gr.StatusCode))
+		return res, errors.New(fmt.Sprintf("请求失败, http.status.code: %d", gr.StatusCode))
 	}
 	err = json.Unmarshal([]byte(gr.Body), &res)
 	if err != nil {
-		return false, errors.New(fmt.Sprintf("解析失败. %s", err))
+		return res, errors.New(fmt.Sprintf("解析失败. %s", err))
 	}
 	if res.Code != 0 {
-		return false, errors.New(gtype.ToString(res.Message))
+		return res, errors.New(gtype.ToString(res.Message))
 	}
-	return true, nil
+	return res, nil
 }
 
-func (u User) UnBindTreeUser(body ApiUnBindTreeUserReq) (bool, error) {
+func (u User) UnBindTreeUser(body ApiUnBindTreeUserReq) (ResponseUserBaseInfo, error) {
 	res := ResponseUserBaseInfo{}
 	request := ghttp.FromValues{}
 	request.Add("request_id", gtype.UniqueId())
@@ -365,17 +365,17 @@ func (u User) UnBindTreeUser(body ApiUnBindTreeUserReq) (bool, error) {
 	gr, err := ghttp.PostJsonRetry(u.Url+uri, request, nil, time.Second*3, 3)
 	u.hook(fmt.Sprintf("Response Uri:%s, body:%s", uri, gr.Body))
 	if err != nil {
-		return false, err
+		return res, err
 	}
 	if gr.StatusCode != 200 {
-		return false, errors.New(fmt.Sprintf("请求失败, http.status.code: %d", gr.StatusCode))
+		return res, errors.New(fmt.Sprintf("请求失败, http.status.code: %d", gr.StatusCode))
 	}
 	err = json.Unmarshal([]byte(gr.Body), &res)
 	if err != nil {
-		return false, errors.New(fmt.Sprintf("解析失败. %s", err))
+		return res, errors.New(fmt.Sprintf("解析失败. %s", err))
 	}
 	if res.Code != 0 {
-		return false, errors.New(gtype.ToString(res.Message))
+		return res, errors.New(gtype.ToString(res.Message))
 	}
-	return true, nil
+	return res, nil
 }
