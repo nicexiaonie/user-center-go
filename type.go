@@ -105,9 +105,10 @@ type ResponseTreeUserInfo struct {
 
 // step 获取用户组织关系返回二级
 type ResponseTreeUser struct {
-	OrgID   uint32 `json:"org_id"`
-	OrgName string `json:"org_name"`
-	Perm    string `json:"perm"`
+	OrgID    uint32 `json:"org_id"`
+	ParentID uint32 `json:"parent_id"`
+	OrgName  string `json:"org_name"`
+	Perm     string `json:"perm"`
 }
 
 // step 绑定用户组织关系
