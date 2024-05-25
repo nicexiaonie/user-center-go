@@ -328,8 +328,8 @@ func (u User) GetTreeUser(body ApiGetTreeUserReq) (ResponseTreeUserInfo, error) 
 	return res, nil
 }
 
-func (u User) BindTreeUser(body ApiBindTreeUserReq) (ResponseUserBaseInfo, error) {
-	res := ResponseUserBaseInfo{}
+func (u User) BindTreeUser(body ApiBindTreeUserReq) (ResponseBindTreeUseInfo, error) {
+	res := ResponseBindTreeUseInfo{}
 	request := ghttp.FromValues{}
 	request.Add("request_id", gtype.UniqueId())
 	request.Add("source", u.Source)
@@ -354,13 +354,39 @@ func (u User) BindTreeUser(body ApiBindTreeUserReq) (ResponseUserBaseInfo, error
 	return res, nil
 }
 
-func (u User) UnBindTreeUser(body ApiUnBindTreeUserReq) (ResponseUserBaseInfo, error) {
-	res := ResponseUserBaseInfo{}
+func (u User) UnBindTreeUser(body ApiUnBindTreeUserReq) (ResponseUnBindTreeUserInfo, error) {
+	res := ResponseUnBindTreeUserInfo{}
 	request := ghttp.FromValues{}
 	request.Add("request_id", gtype.UniqueId())
 	request.Add("source", u.Source)
 	request.Add("body", body)
 	uri := "/api/org/un_bind_tree_user"
+	u.hook(fmt.Sprintf("Request Uri:%s, body:%s", uri, request.EncodeJson()))
+	gr, err := ghttp.PostJsonRetry(u.Url+uri, request, nil, time.Second*3, 3)
+	u.hook(fmt.Sprintf("Response Uri:%s, body:%s", uri, gr.Body))
+	if err != nil {
+		return res, err
+	}
+	if gr.StatusCode != 200 {
+		return res, errors.New(fmt.Sprintf("请求失败, http.status.code: %d", gr.StatusCode))
+	}
+	err = json.Unmarshal([]byte(gr.Body), &res)
+	if err != nil {
+		return res, errors.New(fmt.Sprintf("解析失败. %s", err))
+	}
+	if res.Code != 0 {
+		return res, errors.New(gtype.ToString(res.Message))
+	}
+	return res, nil
+}
+
+func (u User) GetTreeUserChildren(body ApiGetyTreeUserChildrenReq) (ResponseGetyTreeUserChildrenInfo, error) {
+	res := ResponseGetyTreeUserChildrenInfo{}
+	request := ghttp.FromValues{}
+	request.Add("request_id", gtype.UniqueId())
+	request.Add("source", u.Source)
+	request.Add("body", body)
+	uri := "/api/org/get_children"
 	u.hook(fmt.Sprintf("Request Uri:%s, body:%s", uri, request.EncodeJson()))
 	gr, err := ghttp.PostJsonRetry(u.Url+uri, request, nil, time.Second*3, 3)
 	u.hook(fmt.Sprintf("Response Uri:%s, body:%s", uri, gr.Body))

@@ -135,3 +135,25 @@ type ResponseUnBindTreeUserInfo struct {
 	Message any         `json:"msg"`
 	Body    interface{} `json:"body"`
 }
+
+// step 获取组织下级
+type ApiGetyTreeUserChildrenReq struct {
+	ID uint32 `json:"id" binding:"required"`
+}
+
+// step 获取组织下级返回
+type ResponseGetyTreeUserChildrenInfo struct {
+	Code    int              `json:"code"`
+	Message any              `json:"msg"`
+	Body    TreeUserChildren `json:"body"`
+}
+
+type TreeUserChildren struct {
+	Children []TreeUser `json:"children"`
+}
+
+type TreeUser struct {
+	ID       uint32 `json:"id"`
+	Name     string `json:"name"`
+	ParentID uint32 `json:"parent_id"`
+}
