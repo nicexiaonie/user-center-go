@@ -91,6 +91,18 @@ type ApiRealNameReq struct {
 	IdCard   string `json:"id_card"`   // 身份证号码
 }
 
+// step 批量实名验证
+type ApiRealNamesReq struct {
+	UserIds map[uint64]bool `json:"user_ids"` // 唯一不可变 user主表主键ID集合
+}
+
+// step 批量实名验证返回
+type ResponseRealNames struct {
+	Code    int             `json:"code"`
+	Message any             `json:"msg"`
+	Body    map[uint64]bool `json:"body"` // 唯一不可变 user主表主键ID集合
+}
+
 // step 获取用户组织关系
 type ApiGetTreeUserReq struct {
 	UserId uint64 `json:"user_id"` // 唯一不可变 user主表主键ID
